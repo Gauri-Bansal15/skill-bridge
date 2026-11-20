@@ -1,0 +1,23 @@
+$ python -m skillbridge.cli --resume data/resumes/aarav_mehta.txt --job data/jobs/ai_ml_intern.txt
+Engine: offline-rules   Prompt: n/a
+
+MATCH SCORE: 62/100
+  required_skills      37.5
+  experience_projects  15.0
+  education            10
+  preferred_skills     0.0
+Why: 3 of 4 required skills appear in the resume; 3 of them are shown in a project or experience line; 0 of 3 preferred skills appear.
+
+Matching skills:
+  + Python (demonstrated)
+  + SQL (demonstrated)
+  + data analysis (demonstrated)
+Missing skills:
+  - machine learning [required]
+  - TensorFlow [preferred]
+  - PyTorch [preferred]
+  - Git [preferred]
+Suggestions:
+  * [Skills / Projects] The job asks for machine learning. Add it only if you really have it; otherwise learn it and build a small project you can describe.
+
+Guidance only. This score is not a hiring decision and has not been validated against real recruiters.

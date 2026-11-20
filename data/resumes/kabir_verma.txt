@@ -1,0 +1,10 @@
+Kabir Verma
+B.Tech IT student (synthetic sample resume - not a real person)
+
+Skills: JavaScript, React, Node.js, HTML, CSS, MongoDB, Git
+
+Projects:
+- ShopEasy e-commerce web app: built a responsive storefront with React, JavaScript and semantic HTML/CSS; designed REST APIs in Node.js backed by MongoDB; used a Git branching workflow with two teammates.
+
+Education:
+- B.Tech Information Technology, 2024-2028

@@ -1,0 +1,20 @@
+[
+  {"id": "P1", "resume": "aarav_mehta.txt", "job": "ai_ml_intern.txt",
+   "note": "Partial match: strong basics, no ML evidence",
+   "gold": {"matching": ["Python", "SQL", "data analysis"], "missing": ["machine learning", "TensorFlow", "PyTorch", "Git"], "unverified": [], "score_band": [50, 70]}},
+  {"id": "P2", "resume": "diya_sharma.txt", "job": "ai_ml_intern.txt",
+   "note": "Strong match: only PyTorch missing",
+   "gold": {"matching": ["Python", "SQL", "machine learning", "data analysis", "TensorFlow", "Git"], "missing": ["PyTorch"], "unverified": [], "score_band": [85, 100]}},
+  {"id": "P3", "resume": "kabir_verma.txt", "job": "ai_ml_intern.txt",
+   "note": "Wrong domain: web developer applying to an ML role",
+   "gold": {"matching": ["Git"], "missing": ["Python", "SQL", "machine learning", "data analysis", "TensorFlow", "PyTorch"], "unverified": [], "score_band": [10, 35]}},
+  {"id": "P4", "resume": "kabir_verma.txt", "job": "frontend_intern.txt",
+   "note": "Strong match: only TypeScript missing",
+   "gold": {"matching": ["JavaScript", "React", "HTML", "CSS", "Git", "REST APIs"], "missing": ["TypeScript"], "unverified": [], "score_band": [85, 100]}},
+  {"id": "P5", "resume": "meera_iyer.txt", "job": "ai_ml_intern.txt",
+   "note": "Trap: many skills listed, none demonstrated",
+   "gold": {"matching": ["Python", "SQL", "machine learning", "TensorFlow"], "missing": ["data analysis", "PyTorch", "Git"], "unverified": ["Python", "SQL", "machine learning", "TensorFlow"], "score_band": [40, 65]}},
+  {"id": "P6", "resume": "aarav_mehta.txt", "job": "data_analyst_intern.txt",
+   "note": "Moderate match: no Excel or visualisation",
+   "gold": {"matching": ["Python", "SQL"], "missing": ["Excel", "data visualization", "Tableau", "Power BI", "statistics"], "unverified": [], "score_band": [35, 55]}}
+]

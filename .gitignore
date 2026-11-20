@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+.venv/
+venv/
+.env
+.pytest_cache/
+.streamlit/secrets.toml
+.DS_Store
+*.egg-info/
+# keep results out of git unless you want to share them
+evaluation/results/*_tmp.csv

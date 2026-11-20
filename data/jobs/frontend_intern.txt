@@ -1,0 +1,7 @@
+Frontend Developer Intern (synthetic job description)
+
+Help us build responsive interfaces for our web product.
+
+Required skills: JavaScript, React, HTML, CSS
+Preferred skills: TypeScript, Git, REST APIs
+Education: Pursuing a degree in Computer Science, IT or a related field.
