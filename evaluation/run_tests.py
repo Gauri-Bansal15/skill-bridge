@@ -38,6 +38,8 @@ def evaluate(case: dict, result: dict | None, error: str | None) -> tuple[bool, 
     if error or result is None:
         return False, [f"run failed: {error}"], f"Run failed: {(error or '')[:90]}"
 
+    if result.get("match_score") is None:
+        return False, ["model returned free text, no structured score"], "No structured output (free text)"
     matching = names(result["matching_skills"])
     unverified = names(result["unverified_skills"]) | {canonical(m["skill"]) for m in result["matching_skills"] if not m.get("demonstrated", True)}
     claimed = matching | names(result["unverified_skills"])

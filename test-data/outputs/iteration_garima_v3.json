@@ -1,0 +1,30 @@
+{
+  "engine": "gemini",
+  "model": "gemini-3.5-flash",
+  "records": [
+    {
+      "version": "v3",
+      "pair": "P1",
+      "run": 1,
+      "ok": true,
+      "score": 62,
+      "in_band": true,
+      "structured": true,
+      "evidence_warnings": 0,
+      "unverified_found": null,
+      "error": null
+    },
+    {
+      "version": "v3",
+      "pair": "P1",
+      "run": 2,
+      "ok": false,
+      "score": null,
+      "in_band": false,
+      "structured": false,
+      "evidence_warnings": 0,
+      "unverified_found": null,
+      "error": "Gemini request failed: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. "
+    }
+  ]
+}

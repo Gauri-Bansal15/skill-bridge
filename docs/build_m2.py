@@ -302,7 +302,7 @@ def main():
                  ["Step in the workflow", "Step 2 of 5: after personal details are masked, before the JSON is validated"],
                  ["Purpose", "Compare one resume with one job description and return an evidence-based, rubric-scored analysis as JSON"],
                  ["Tool and model", f"Gemini API, model {model}"],
-                 ["Settings", "temperature 0.2; response type application/json; request timeout 60 s"],
+                 ["Settings", "temperature 0.2; response type application/json; request timeout 120 s"],
                  ["System prompt", "None (everything is in the user prompt)"],
                  ["Variables", "{{RESUME}}: the resume text after personal details were masked.  {{JOB_DESCRIPTION}}: the job description text as pasted."],
                  ["Number of examples included", "0 (zero-shot; the rubric and the JSON shape do the work)"],

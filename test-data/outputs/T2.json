@@ -1,0 +1,42 @@
+{
+  "case": {
+    "id": "T2",
+    "type": "Normal",
+    "resume": "resume_diya_sharma.txt",
+    "job": "job_ai_ml_intern.txt",
+    "input_short": "Student with ML internship and 2 ML projects vs AI/ML intern job",
+    "expected": "Score 85-100; ML skills matched; only PyTorch missing",
+    "checks": {
+      "score_range": [
+        85,
+        100
+      ],
+      "must_match": [
+        "Python",
+        "SQL",
+        "machine learning",
+        "TensorFlow"
+      ],
+      "must_miss": [
+        "PyTorch"
+      ]
+    }
+  },
+  "result": null,
+  "error": "Gemini request failed: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://aistudio.google.com/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-3.6-flash, description: Generate content requests per day limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\\nPlease retry in 11h4m14.217456156s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://aistudio.google.com/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'description': 'Generate content requests per day limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.', 'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerDayPerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-3.6-flash'}, 'quotaValue': '20'}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '39854s'}]}}",
+  "row": {
+    "id": "T2",
+    "type": "Normal",
+    "input_short": "Student with ML internship and 2 ML projects vs AI/ML intern job",
+    "expected": "Score 85-100; ML skills matched; only PyTorch missing",
+    "actual_short": "Run failed: Gemini request failed: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exc",
+    "pass": false,
+    "problems": [
+      "run failed: Gemini request failed: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://aistudio.google.com/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-3.6-flash, description: Generate content requests per day limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\\nPlease retry in 11h4m14.217456156s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://aistudio.google.com/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'description': 'Generate content requests per day limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.', 'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerDayPerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-3.6-flash'}, 'quotaValue': '20'}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '39854s'}]}}"
+    ],
+    "engine": "gemini",
+    "prompt_version": "final",
+    "score": null,
+    "evidence_warnings": 0
+  }
+}

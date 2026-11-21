@@ -1,0 +1,50 @@
+Here is the analysis of the resume against the AI/ML Intern job description:
+
+---
+
+### **1. Matching Skills**
+* **Required Skills Matched:**
+  * Python
+  * SQL
+  * Machine Learning
+* **Preferred Skills Matched:**
+  * TensorFlow
+* **Education Match:** 
+  * B.Sc in Mathematics qualifies as a "related field" for an AI/ML role.
+
+---
+
+### **2. Missing or Unverified Skills**
+* **Missing Required Skills:**
+  * **Data Analysis** (Not explicitly mentioned in skills or projects).
+* **Missing Preferred Skills:**
+  * **PyTorch**
+  * **Git**
+* **Unverified Skills (Listed in Skills section, but unsupported by experience/projects):**
+  * Python, Machine Learning, Deep Learning, SQL, Docker, AWS, Kubernetes, and TensorFlow are listed as skills, but **none** are demonstrated in the candidate's project. The only project listed is a Java console application with file-based storage, which does not utilize any of the core ML/Data skills claimed.
+
+---
+
+### **3. Match Score: 65 / 100**
+
+#### **Reasons for Score:**
+* **Pros (+):**
+  * Matches 3 out of 4 required technical skills (Python, SQL, Machine Learning).
+  * Matches 1 preferred skill (TensorFlow).
+  * Educational background (B.Sc Mathematics) is highly relevant for AI/ML.
+* **Cons (-):**
+  * **Lack of Proof/Context:** The resume shows a strong disconnect between the "Skills" section and the "Projects" section. The only listed project uses Java and file storage, offering zero evidence that the candidate actually knows how to use Python, ML, SQL, or TensorFlow.
+  * **Missing Core Skills:** Data Analysis and Git (an essential tool for data/software teams) are missing.
+
+---
+
+### **4. Resume Improvement Suggestions**
+
+1. **Add Python & Machine Learning Projects:** 
+   * Replace or supplement the Java Library Management project with 1–2 hands-on data science/ML projects (e.g., Exploratory Data Analysis on a Kaggle dataset, building a predictive model using Python/Scikit-Learn/TensorFlow, or writing SQL queries for data extraction).
+2. **Explicitly Show Data Analysis:**
+   * Highlight experience with libraries like Pandas, NumPy, and Matplotlib/Seaborn under skills or project descriptions.
+3. **Align Skills with Experience:**
+   * Describe *how* Python, SQL, Docker, or AWS were used in projects. Simply listing high-level technologies (like Kubernetes/AWS) without project context raises doubt for recruiters.
+4. **Include Version Control (Git):**
+   * Learn Git/GitHub basics and add it to the skills section, as version control is a standard requirement for data science internships.

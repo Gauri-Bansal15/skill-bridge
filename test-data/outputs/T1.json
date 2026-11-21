@@ -1,0 +1,110 @@
+{
+  "case": {
+    "id": "T1",
+    "type": "Normal",
+    "resume": "resume_aarav_mehta.txt",
+    "job": "job_ai_ml_intern.txt",
+    "input_short": "CSE student with Python/SQL/Pandas project vs AI/ML intern job",
+    "expected": "Score 50-70; Python, SQL, data analysis matched; machine learning missing",
+    "checks": {
+      "score_range": [
+        50,
+        70
+      ],
+      "must_match": [
+        "Python",
+        "SQL",
+        "data analysis"
+      ],
+      "must_miss": [
+        "machine learning"
+      ]
+    }
+  },
+  "result": {
+    "matching_skills": [
+      {
+        "skill": "Python",
+        "evidence": "Student Result Analysis using Python",
+        "demonstrated": true
+      },
+      {
+        "skill": "SQL",
+        "evidence": "wrote SQL queries to rank students by subject",
+        "demonstrated": true
+      },
+      {
+        "skill": "data analysis",
+        "evidence": "Student Result Analysis using Python: cleaned marks data with Pandas, calculated class averages and pass percentages",
+        "demonstrated": true
+      }
+    ],
+    "missing_skills": [
+      {
+        "skill": "machine learning",
+        "importance": "required",
+        "note": "Required for the AI/ML Intern role, but not found in the resume."
+      },
+      {
+        "skill": "TensorFlow",
+        "importance": "preferred",
+        "note": "Listed as a preferred framework in the job description."
+      },
+      {
+        "skill": "PyTorch",
+        "importance": "preferred",
+        "note": "Listed as a preferred framework in the job description."
+      },
+      {
+        "skill": "Git",
+        "importance": "preferred",
+        "note": "Listed as a preferred tool in the job description."
+      }
+    ],
+    "unverified_skills": [],
+    "score_reasoning": "The candidate has demonstrated 3 out of 4 required skills (Python, SQL, data analysis) in their projects, resulting in 37.5 for required skills and 15.0 for experience/projects. Education scores a full 10.0 as the candidate is pursuing a B.Tech in Computer Science and Engineering. Preferred skills score 0.0 because none of TensorFlow, PyTorch, or Git are present.",
+    "suggestions": [
+      {
+        "section": "Projects",
+        "suggestion": "If you have experience with machine learning, build and document a small ML project (e.g., using scikit-learn) demonstrating model training and evaluation to address the key required skill.",
+        "based_on": "Projects: Student Result Analysis using Python"
+      },
+      {
+        "section": "Skills",
+        "suggestion": "If you are familiar with version control tools like Git or preferred ML frameworks like TensorFlow or PyTorch, consider learning them through small projects and adding them to your skills list once proficient.",
+        "based_on": "Skills: Python, SQL, Pandas"
+      }
+    ],
+    "score_breakdown": {
+      "required_skills": 37.5,
+      "experience_projects": 15.0,
+      "education": 10,
+      "preferred_skills": 0.0
+    },
+    "match_score": 62,
+    "warnings": [],
+    "engine": "gemini (gemini-3.5-flash)",
+    "prompt_version": "final",
+    "privacy": {
+      "total": 1,
+      "counts": {
+        "name": 1
+      }
+    },
+    "disclaimer": "Guidance only. This score is not a hiring decision and has not been validated against real recruiters."
+  },
+  "error": null,
+  "row": {
+    "id": "T1",
+    "type": "Normal",
+    "input_short": "CSE student with Python/SQL/Pandas project vs AI/ML intern job",
+    "expected": "Score 50-70; Python, SQL, data analysis matched; machine learning missing",
+    "actual_short": "Score 62. Matched: data analysis, python, sql. Missing: git, machine learning, pytorch, tensorflow.",
+    "pass": true,
+    "problems": [],
+    "engine": "gemini (gemini-3.5-flash)",
+    "prompt_version": "final",
+    "score": 62,
+    "evidence_warnings": 0
+  }
+}

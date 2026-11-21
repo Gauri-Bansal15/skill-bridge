@@ -1,0 +1,42 @@
+Here is the analysis comparing the candidate's resume with the AI/ML Intern job description:
+
+---
+
+### **1. Matching Skills & Requirements**
+* **Python:** Listed explicitly in the resume skills and demonstrated in the project.
+* **SQL:** Listed explicitly in the resume skills and demonstrated in the project queries.
+* **Data Analysis:** Demonstrated through the project work (data cleaning with Pandas, calculating metrics/averages).
+* **Education Requirement:** Matches the target profile (Pursuing B.Tech in Computer Science and Engineering, 2024–2028).
+
+---
+
+### **2. Missing or Unverified Skills**
+
+* **Required Skills Missing:**
+  * **Machine Learning:** No mention of ML algorithms, concepts, or libraries (e.g., Scikit-Learn).
+
+* **Preferred Skills Missing:**
+  * **TensorFlow**
+  * **PyTorch**
+  * **Git** (Version control)
+
+---
+
+### **3. Match Score: 60 / 100**
+
+**Reasons for Score:**
+* **Positives (+):** Strong match on foundational data manipulation tools (Python, SQL, Pandas) and exact alignment with the educational requirement (pursuing a CS degree).
+* **Negatives (-):** Lacks the primary core requirement of the role—**Machine Learning**. There are no ML models, frameworks (like PyTorch or TensorFlow), or ML-focused projects listed, which is critical for an AI/ML internship.
+
+---
+
+### **4. Resume Improvement Suggestions**
+
+1. **Include Machine Learning Work/Projects:** 
+   * Gain hands-on experience building basic machine learning models (e.g., classification, regression using Scikit-Learn) and detail them under projects.
+2. **Highlight Preferred Frameworks:** 
+   * Learn and add foundational exposure to PyTorch or TensorFlow if applicable.
+3. **Add Git / Version Control:** 
+   * Include Git/GitHub in the skills section and link a GitHub profile showcasing project code repositories.
+4. **Explicitly Keyword Skills:** 
+   * Add "Data Analysis" directly to the core skills list to align better with automated applicant tracking systems (ATS).

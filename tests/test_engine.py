@@ -85,3 +85,11 @@ def test_gemini_v1_returns_free_text():
 def test_final_prompt_is_identical_to_v3():
     from skillbridge.prompts import load_template
     assert load_template("final") == load_template("v3")
+
+
+def test_final_prompt_returns_structured_result():
+    reply = json.dumps({"matching_skills": [], "missing_skills": [], "unverified_skills": [],
+                        "score_breakdown": {"required_skills": 10, "experience_projects": 0, "education": 0, "preferred_skills": 0},
+                        "score_reasoning": "x", "suggestions": []})
+    res = analyse("Name Person\nSkills: Python", "Required: Python", engine="gemini", prompt_version="final", client=FakeClient(reply))
+    assert res["match_score"] == 10 and "raw_text" not in res

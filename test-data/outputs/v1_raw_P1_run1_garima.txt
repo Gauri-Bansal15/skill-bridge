@@ -1,0 +1,33 @@
+Here is the analysis based on the provided resume and job description:
+
+---
+
+### **1. Matching Skills**
+* **Python:** Listed explicitly under Candidate Skills and demonstrated in the project; directly matches the required skills in the job description.
+* **SQL:** Listed under Candidate Skills and demonstrated in the project (writing SQL queries); matches the required skills.
+* **Data Analysis:** Demonstrated in the candidate's project (data cleaning with Pandas, calculating averages, pass percentages); matches the required "data analysis" skill.
+* **Education Requirement:** The candidate is currently pursuing a B.Tech in Computer Science and Engineering (2024–2028), fulfilling the requirement of pursuing a CS/IT-related degree.
+
+---
+
+### **2. Missing or Unverified Skills**
+* **Machine Learning (Required):** Explicitly required for the AI/ML Intern role, but absent from the resume's skills list and project description.
+* **TensorFlow (Preferred):** Missing from the resume.
+* **PyTorch (Preferred):** Missing from the resume.
+* **Git (Preferred):** Missing from the resume.
+
+---
+
+### **3. Match Score: 60 / 100**
+
+**Reasons for Score:**
+* **Positives (+60):** The candidate perfectly meets the educational requirement (CS student) and has solid foundational data handling skills (Python, SQL, Pandas, basic data analysis).
+* **Deductions (-40):** The target role is an **AI/ML Intern** focused on building and testing machine learning models. The candidate does not list **Machine Learning** experience, ML frameworks (TensorFlow/PyTorch), or version control (Git). The provided project demonstrates basic data processing/analysis rather than machine learning work.
+
+---
+
+### **4. Resume Improvements**
+1. **Highlight ML Projects/Knowledge:** If you have built or trained any machine learning models (e.g., scikit-learn), explicitly feature them in your skills and project sections.
+2. **Add Relevant Coursework:** Since you are in a B.Tech CSE program, list relevant academic subjects (e.g., *Data Structures, Linear Algebra, Machine Learning, Statistics*) under your Education section.
+3. **Include Version Control Tools:** If you use Git or GitHub to manage your code, include **Git** in your skills list.
+4. **Detail Data Analysis Impact:** Expand on the technical details of your project (e.g., visual tools used, dataset sizes, or specific statistical methods).

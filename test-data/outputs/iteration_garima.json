@@ -1,0 +1,126 @@
+{
+  "engine": "gemini",
+  "model": "gemini-3.5-flash",
+  "records": [
+    {
+      "version": "v1",
+      "pair": "P1",
+      "run": 1,
+      "ok": true,
+      "score": 60,
+      "in_band": true,
+      "structured": false,
+      "evidence_warnings": 0,
+      "unverified_found": null,
+      "error": null
+    },
+    {
+      "version": "v1",
+      "pair": "P1",
+      "run": 2,
+      "ok": true,
+      "score": 60,
+      "in_band": true,
+      "structured": false,
+      "evidence_warnings": 0,
+      "unverified_found": null,
+      "error": null
+    },
+    {
+      "version": "v1",
+      "pair": "P5",
+      "run": 1,
+      "ok": true,
+      "score": 65,
+      "in_band": true,
+      "structured": false,
+      "evidence_warnings": 0,
+      "unverified_found": null,
+      "error": null
+    },
+    {
+      "version": "v1",
+      "pair": "P5",
+      "run": 2,
+      "ok": true,
+      "score": 65,
+      "in_band": true,
+      "structured": false,
+      "evidence_warnings": 0,
+      "unverified_found": null,
+      "error": null
+    },
+    {
+      "version": "v2",
+      "pair": "P1",
+      "run": 1,
+      "ok": true,
+      "score": 55,
+      "in_band": true,
+      "structured": true,
+      "evidence_warnings": 0,
+      "unverified_found": null,
+      "error": null
+    },
+    {
+      "version": "v2",
+      "pair": "P1",
+      "run": 2,
+      "ok": true,
+      "score": 50,
+      "in_band": true,
+      "structured": true,
+      "evidence_warnings": 0,
+      "unverified_found": null,
+      "error": null
+    },
+    {
+      "version": "v2",
+      "pair": "P5",
+      "run": 1,
+      "ok": true,
+      "score": 30,
+      "in_band": false,
+      "structured": true,
+      "evidence_warnings": 0,
+      "unverified_found": 1.0,
+      "error": null
+    },
+    {
+      "version": "v2",
+      "pair": "P5",
+      "run": 2,
+      "ok": true,
+      "score": 25,
+      "in_band": false,
+      "structured": true,
+      "evidence_warnings": 0,
+      "unverified_found": 1.0,
+      "error": null
+    },
+    {
+      "version": "v3",
+      "pair": "P1",
+      "run": 1,
+      "ok": false,
+      "score": null,
+      "in_band": false,
+      "structured": false,
+      "evidence_warnings": 0,
+      "unverified_found": null,
+      "error": "Gemini request failed: 504 DEADLINE_EXCEEDED. {'error': {'code': 504, 'message': 'Deadline expired before operation could complete.', 'status': 'DEADLINE_EXCEED"
+    },
+    {
+      "version": "v3",
+      "pair": "P1",
+      "run": 2,
+      "ok": false,
+      "score": null,
+      "in_band": false,
+      "structured": false,
+      "evidence_warnings": 0,
+      "unverified_found": null,
+      "error": "Gemini request failed: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. "
+    }
+  ]
+}

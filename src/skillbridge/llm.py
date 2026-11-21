@@ -48,7 +48,7 @@ class GeminiClient:
         config = types.GenerateContentConfig(
             temperature=self.temperature,
             response_mime_type="application/json" if json_mode else "text/plain",
-            http_options=types.HttpOptions(timeout=60000),  # 60 s: fail instead of hanging
+            http_options=types.HttpOptions(timeout=120000),  # 60 s: fail instead of hanging
         )
         response = None
         for attempt in range(3):

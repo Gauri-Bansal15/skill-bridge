@@ -11,7 +11,7 @@ PROMPT_FILES = {
     "v3": "v3/v3_rubric.md",
     "final": "final/P1_resume_analysis.md",  # identical to v3; a test keeps them in sync
 }
-STRUCTURED = {"v2", "v3"}
+STRUCTURED = {"v2", "v3", "final"}
 LABELS = {
     "v1": "v1 - baseline (free text)",
     "v2": "v2 - structured JSON",
