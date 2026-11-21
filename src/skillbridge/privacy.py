@@ -21,6 +21,20 @@ class RedactionReport:
         return sum(self.counts.values())
 
 
+_SECTION_WORDS = re.compile(
+    r"^(skills?|technical skills?|education|projects?|experience|summary|objective|profile|resume|curriculum|certifications?)\b", re.I
+)
+
+
+def looks_like_name(line: str) -> bool:
+    """A name line is 2-4 short words of letters only, and not a section heading."""
+    line = line.strip()
+    if not line or ":" in line or any(ch.isdigit() for ch in line) or _SECTION_WORDS.match(line):
+        return False
+    words = line.split()
+    return 2 <= len(words) <= 4 and all(re.fullmatch(r"[A-Za-z.'\-]{1,20}", w) for w in words)
+
+
 def anonymise(text: str, redact_first_line: bool = True) -> tuple[str, RedactionReport]:
     """Return (clean_text, report).
 
@@ -34,7 +48,7 @@ def anonymise(text: str, redact_first_line: bool = True) -> tuple[str, Redaction
             report.counts[name] = n
     if redact_first_line:
         lines = text.splitlines()
-        if lines and lines[0].strip() and not lines[0].strip().startswith("["):
+        if lines and looks_like_name(lines[0]):
             lines[0] = "[CANDIDATE NAME]"
             report.counts["name"] = 1
             text = "\n".join(lines)

@@ -15,3 +15,13 @@ def test_masks_contact_details():
 def test_does_not_touch_years_or_scores():
     clean, _ = anonymise("Name\nB.Tech 2024-2028, reached 98% accuracy, 2020-2023", redact_first_line=False)
     assert "2024-2028" in clean and "98%" in clean and "2020-2023" in clean
+
+
+def test_first_line_is_masked_only_when_it_is_a_name():
+    # regression found by M2 test T7: "Skills: Python" used to be masked as a name
+    clean, report = anonymise("Skills: Python")
+    assert clean == "Skills: Python" and "name" not in report.counts
+    clean, report = anonymise("Gauri Test\nSkills: Python")
+    assert clean.splitlines()[0] == "[CANDIDATE NAME]" and report.counts["name"] == 1
+    clean, _ = anonymise("Education\nB.Tech CSE")
+    assert clean.startswith("Education")

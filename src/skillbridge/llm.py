@@ -4,10 +4,16 @@ from __future__ import annotations
 import json
 import os
 import re
+import time
 
 
 class GeminiError(RuntimeError):
     pass
+
+
+def is_quota_error(exc: Exception | str) -> bool:
+    msg = str(exc)
+    return "429" in msg or "RESOURCE_EXHAUSTED" in msg or "quota" in msg.lower()
 
 
 def parse_json(text: str) -> dict:
@@ -42,12 +48,20 @@ class GeminiClient:
         config = types.GenerateContentConfig(
             temperature=self.temperature,
             response_mime_type="application/json" if json_mode else "text/plain",
-            http_options=types.HttpOptions(timeout=60000),  # 60 s, so a stuck call fails instead of hanging
+            http_options=types.HttpOptions(timeout=60000),  # 60 s: fail instead of hanging
         )
-        try:
-            response = client.models.generate_content(model=self.model, contents=prompt, config=config)
-        except Exception as exc:  # network, quota, bad key...
-            raise GeminiError(f"Gemini request failed: {exc}") from exc
-        if not response.text:
+        response = None
+        for attempt in range(3):
+            try:
+                response = client.models.generate_content(model=self.model, contents=prompt, config=config)
+                break
+            except Exception as exc:
+                msg = str(exc)
+                # Retry timeouts / overload. Never retry a quota error: it only burns more quota.
+                if not is_quota_error(msg) and ("503" in msg or "504" in msg) and attempt < 2:
+                    time.sleep(10 * (2 ** attempt))
+                    continue
+                raise GeminiError(f"Gemini request failed: {exc}") from exc
+        if response is None or not response.text:
             raise GeminiError("Gemini returned an empty answer (possibly blocked by a safety filter).")
         return response.text

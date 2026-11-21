@@ -19,6 +19,7 @@ sys.path.insert(0, str(ROOT / "src"))
 
 from skillbridge.analyzer import analyse  # noqa: E402
 from skillbridge.llm import GeminiClient  # noqa: E402
+from skillbridge.skills import canonical  # noqa: E402
 
 
 def prf(pred: set[str], gold: set[str]) -> tuple[float, float, float]:
@@ -34,7 +35,7 @@ def recall(pred: set[str], gold: set[str]) -> float:
 
 
 def lower(items) -> set[str]:
-    return {i.lower() for i in items}
+    return {canonical(i) for i in items}
 
 
 def run_one(pair: dict, engine: str, version: str, client) -> dict:
@@ -48,7 +49,8 @@ def run_one(pair: dict, engine: str, version: str, client) -> dict:
         return {"valid": False, "error": str(exc)[:120]}
     if not valid:
         return {"valid": False, "error": "free text, no structured output"}
-    pred_match = lower(m["skill"] for m in res["matching_skills"])
+    # "matching" = skills the resume claims: demonstrated ones plus listed-only ones
+    pred_match = lower(m["skill"] for m in res["matching_skills"]) | lower(m["skill"] for m in res["unverified_skills"])
     pred_miss = lower(m["skill"] for m in res["missing_skills"])
     pred_unv = lower(m["skill"] for m in res["unverified_skills"])
     p, r, f = prf(pred_match, lower(gold["matching"]))
@@ -67,23 +69,25 @@ def main() -> None:
     ap.add_argument("--engine", choices=["offline", "gemini"], default="offline")
     ap.add_argument("--versions", nargs="+", default=["v3"])
     ap.add_argument("--runs", type=int, default=1, help="repeats per pair (use >=3 with Gemini to measure consistency)")
-    ap.add_argument("--delay", type=float, default=1.0, help="seconds between Gemini calls")
+    ap.add_argument("--delay", type=float, default=15.0, help="seconds between Gemini calls (free tier: 5 per minute)")
+    ap.add_argument("--pairs", nargs="*", help="only these pair ids, e.g. P1 P5")
+    ap.add_argument("--tag", default="", help="suffix for the results file")
     a = ap.parse_args()
 
     pairs = json.loads((ROOT / "data/eval_pairs.json").read_text())
+    if a.pairs:
+        pairs = [p for p in pairs if p["id"] in a.pairs]
     client = GeminiClient() if a.engine == "gemini" else None
     versions = a.versions if a.engine == "gemini" else ["n/a"]
 
     rows = []
     for v in versions:
         for pair in pairs:
-            # runs = [run_one(pair, a.engine, v, client) for _ in range(a.runs)]
             runs = []
             for k in range(a.runs):
                 r = run_one(pair, a.engine, v, client)
                 runs.append(r)
-                print(f"[{v}] {pair['id']} run {k+1}/{a.runs}: "
-                f"{'score ' + str(r['score']) if r['valid'] else 'FAILED: ' + r.get('error', '')}", flush=True)
+                print(f"[{v}] {pair['id']} run {k+1}/{a.runs}: " + (f"score {r['score']}" if r["valid"] else "FAILED: " + r.get("error", "")), flush=True)
                 if a.engine == "gemini":
                     time.sleep(a.delay)
             ok = [r for r in runs if r["valid"]]
@@ -105,7 +109,7 @@ def main() -> None:
 
     out = ROOT / "evaluation/results"
     out.mkdir(exist_ok=True)
-    tag = a.engine if a.engine == "offline" else "gemini_" + "_".join(versions)
+    tag = (a.engine if a.engine == "offline" else "gemini_" + "_".join(versions)) + (("_" + a.tag) if a.tag else "")
     fields = ["engine", "version", "pair", "note", "valid_rate", "score", "score_std", "gold_band", "in_band",
               "match_f1", "missing_recall", "unverified_recall", "evidence_warnings"]
     with open(out / f"{tag}.csv", "w", newline="", encoding="utf-8") as fh:

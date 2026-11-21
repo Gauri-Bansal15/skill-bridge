@@ -65,3 +65,9 @@ def mentions(text: str, skill: str) -> bool:
 def find_skills(text: str) -> list[str]:
     """Canonical skills mentioned in `text`, in taxonomy order."""
     return [s for s in SKILLS if mentions(text, s)]
+
+
+def canonical(name: str) -> str:
+    """Map any spelling of a skill ('REST API', 'ml') to the canonical name, lower-cased."""
+    found = find_skills(name)
+    return (found[0] if found else name.strip()).lower()

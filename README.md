@@ -4,6 +4,8 @@
 
 Built by **Team Skill Bridge** for *Prompt Engineering (SCSE4041)* at Bennett University. Problem source: Problem Pool **C9 - Resume Feedback Against a Job Description**.
 
+**Live prototype:** PROTOTYPE_URL_HERE  |  **Reel:** see the Milestone 2 form  |  [CHANGELOG](CHANGELOG.md)
+
 ![result](docs/assets/app_03_result.png)
 
 ## The problem in one paragraph
@@ -13,16 +15,13 @@ Students send the same resume to every job, then can't tell why they hear nothin
 - **Explainable score (0-100)** from a fixed rubric: required skills 50, experience/projects 20, education 10, preferred skills 20.
 - **Evidence for every match**: a quote from the resume, or the skill doesn't count.
 - **"Listed only" detection**: a resume that lists eight skills and shows none scores *lower* than a shorter, honest one.
-- **Interactive "What-If" Simulator**: select missing or unproven skills to dynamically simulate potential score improvements before rewriting your resume.
-- **Actionable improvement checklist**: interactive to-do items to track resume refinements.
-- **Full CamelCase support**: UI toggles, `--camel` CLI option, and payload exports in `camelCase` (`matchScore`, `matchingSkills`, `scoreBreakdown`, etc.).
 - **Honest suggestions**: "add this only if you really have it".
 - **Privacy first**: names, emails, phone numbers, links and ID numbers are masked before anything is sent to an AI service.
 - **Works offline**: a rule-based engine runs the whole app without an API key, for demos and tests.
 
 ## Quick start
 ```bash
-git clone https://github.com/<your-username>/skill-bridge.git
+git clone https://github.com/Gauri-Bansal15/skill-bridge.git
 cd skill-bridge
 python -m venv .venv && source .venv/bin/activate      # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
@@ -36,7 +35,6 @@ export GEMINI_API_KEY=your-key
 Command line:
 ```bash
 python -m skillbridge.cli --resume data/resumes/aarav_mehta.txt --job data/jobs/ai_ml_intern.txt
-python -m skillbridge.cli --resume data/resumes/aarav_mehta.txt --job data/jobs/ai_ml_intern.txt --json --camel
 python -m skillbridge.cli --resume data/resumes/aarav_mehta.txt --job data/jobs/ai_ml_intern.txt --engine gemini --prompt v3
 ```
 A guided demo with screenshots and a 5-minute script is in [`docs/DEMO.md`](docs/DEMO.md).
@@ -68,13 +66,18 @@ We went through three prompt versions. Each change has a reason; see [`prompts/C
 
 ## Repository layout
 ```
-app.py                      Streamlit web app
-src/skillbridge/            analyzer, prompts, Gemini client, privacy, scoring, offline engine, CLI
-prompts/                    v1, v2, v3 prompt files + changelog
-data/                       synthetic resumes, job descriptions, labelled pairs
-evaluation/                 evaluation script, metric guide, results
-tests/                      22 tests (privacy, scoring, engine, app)
-docs/                       problem statement, demo guide, contributions, report, presentation, screenshots
+README.md                   this file
+CHANGELOG.md                dated changes since Milestone 1
+prompts/
+  v1/ v2/ v3/               every prompt version (one file each)
+  final/                    final prompt(s): P1_resume_analysis.md (identical to v3)
+  CHANGELOG.md              why each prompt changed
+code/                       pointer to the code (app.py, src/skillbridge/, tests/)
+test-data/                  test_cases.json (12 tests), inputs/, outputs/ (real saved runs)
+docs/                       Milestone 2 PDF, supporting document (BMC), diagrams, screenshots, report, slides
+data/                       sample resumes and job descriptions used by the app
+evaluation/                 run_tests.py, run_iteration_log.py, run_eval.py
+scripts/                    make_diagrams.py, check_submission.py, contrib_stats.sh
 ```
 
 ## Tests
@@ -95,10 +98,10 @@ python -m pytest -q
 ## Team
 | Member | Role |
 |---|---|
-| Gauri Bansal (Team Leader) | Project lead, integration, documentation |
-| Garima Pandey | Prompt engineering, Gemini integration |
-| Bhumika Singh | Research, data, evaluation |
-| Shashank Choudhary | App, privacy, scoring, tests |
+| Gauri Bansal (Team Leader) | Project lead, app, scoring, documentation |
+| Garima Pandey | Prompt engineering, Gemini integration, offline engine, evaluation script |
+| Bhumika Singh | Sample data, gold labels, running the evaluation |
+| Shashank Choudhary | Privacy filter, tests, CI |
 
 Details in [`docs/CONTRIBUTIONS.md`](docs/CONTRIBUTIONS.md).
 

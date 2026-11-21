@@ -1,0 +1,13 @@
+Rohan Test
+Email: rohan.test@example.com | Phone: +91 98765 43210
+LinkedIn: linkedin.com/in/rohantest | GitHub: github.com/rohantest
+Student ID: S24CSEU9999
+(synthetic sample resume - not a real person)
+
+Skills: Python, SQL, Pandas
+
+Projects:
+- Sales Dashboard Analysis: cleaned sales data with Pandas, wrote SQL queries for monthly totals, and automated the report with Python.
+
+Education:
+- B.Tech Computer Science and Engineering, 2024-2028

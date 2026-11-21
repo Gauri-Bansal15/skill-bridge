@@ -1,0 +1,28 @@
+{
+  "team_id": "FILL_ME",
+  "team_name": "Skill Bridge",
+  "project_title": "Skill Bridge - AI Resume Analyzer and Job Matcher",
+  "file_title": "SkillBridge",
+  "batch": "B25-B36",
+  "faculty": "FILL_ME",
+  "links": {
+    "prototype": "FILL_ME",
+    "repository": "https://github.com/Gauri-Bansal15/skill-bridge",
+    "reel": "FILL_ME"
+  },
+  "reel_seconds": 0,
+  "members": [
+    {"name": "Gauri Bansal (Team Leader)", "enrollment": "S24CSEU0778", "role": "Project lead, app and integration",
+     "tasks": "Wrote prompt v1; built the Streamlit app, scoring and analyzer code; wrote README, CHANGELOG and this PDF; deployed the prototype",
+     "evidence": "app.py, src/skillbridge/scoring.py, analyzer.py, prompts/v1/, README.md, docs/ (commit count: ADD)", "percent": 35},
+    {"name": "Garima Pandey", "enrollment": "S24CSEU0781", "role": "Prompt engineer and backend",
+     "tasks": "Designed prompts v2 and v3 and the final prompt P1; JSON schema and rubric; Gemini client; offline engine; evaluation scripts",
+     "evidence": "prompts/v2/, prompts/v3/, prompts/final/P1_resume_analysis.md, llm.py, offline.py, evaluation/ (commit count: ADD)", "percent": 30},
+    {"name": "Bhumika Singh", "enrollment": "S24CSEU0914", "role": "Data and evaluation support",
+     "tasks": "Wrote sample resumes, job descriptions and test inputs; ran the 12-test table and the prompt-version experiment; recorded results",
+     "evidence": "data/, test-data/inputs/, test-data/outputs/ (T1-T12 runs) (commit count: ADD)", "percent": 15},
+    {"name": "Shashank Choudhary", "enrollment": "S24CSEU0408", "role": "Privacy and testing",
+     "tasks": "Wrote the privacy filter (including the T7 name-masking fix); wrote the unit tests and the CI workflow",
+     "evidence": "src/skillbridge/privacy.py, tests/test_privacy.py, tests/test_scoring.py, .github/workflows/ci.yml (commit count: ADD)", "percent": 20}
+  ]
+}

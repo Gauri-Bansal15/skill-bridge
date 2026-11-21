@@ -1,0 +1,7 @@
+AI/ML Intern (synthetic job description)
+
+We are looking for an intern to help our data team build and test small machine learning models.
+
+Required skills: Python, SQL, machine learning, data analysis
+Preferred skills: TensorFlow, PyTorch, Git
+Education: Pursuing a degree in Computer Science, IT or a related field.

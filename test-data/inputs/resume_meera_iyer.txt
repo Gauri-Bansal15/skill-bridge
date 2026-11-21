@@ -1,0 +1,10 @@
+Meera Iyer
+Career switcher (synthetic sample resume - not a real person)
+
+Skills: Python, Machine Learning, Deep Learning, SQL, Docker, AWS, Kubernetes, TensorFlow
+
+Projects:
+- Library Management System: built a console application in Java with file-based storage.
+
+Education:
+- B.Sc Mathematics, 2020-2023

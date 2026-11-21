@@ -1,0 +1,14 @@
+Diya Sharma
+B.Tech CSE student (synthetic sample resume - not a real person)
+
+Skills: Python, SQL, Pandas, NumPy, scikit-learn, TensorFlow, Git
+
+Experience:
+- Data Analyst Intern, ABC Analytics (fictional company): performed data analysis on sales data using Pandas and SQL, and automated the weekly report with Python.
+
+Projects:
+- Handwritten Digit Classifier: trained a convolutional neural network with TensorFlow on MNIST and reached 98% test accuracy; evaluated the machine learning model with precision and recall.
+- Churn Prediction: built logistic regression and random forest models with scikit-learn on customer data; tracked changes with Git.
+
+Education:
+- B.Tech Computer Science and Engineering, 2024-2028

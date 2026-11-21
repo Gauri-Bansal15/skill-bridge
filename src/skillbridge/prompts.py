@@ -6,9 +6,10 @@ from pathlib import Path
 PROMPT_DIR = Path(__file__).resolve().parents[2] / "prompts"
 
 PROMPT_FILES = {
-    "v1": "v1_baseline.md",
-    "v2": "v2_structured.md",
-    "v3": "v3_rubric.md",
+    "v1": "v1/v1_baseline.md",
+    "v2": "v2/v2_structured.md",
+    "v3": "v3/v3_rubric.md",
+    "final": "final/P1_resume_analysis.md",  # identical to v3; a test keeps them in sync
 }
 STRUCTURED = {"v2", "v3"}
 LABELS = {

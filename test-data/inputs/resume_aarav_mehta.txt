@@ -1,0 +1,10 @@
+Aarav Mehta
+B.Tech CSE student (synthetic sample resume - not a real person)
+
+Skills: Python, SQL, Pandas
+
+Projects:
+- Student Result Analysis using Python: cleaned marks data with Pandas, calculated class averages and pass percentages, and wrote SQL queries to rank students by subject.
+
+Education:
+- B.Tech Computer Science and Engineering, 2024-2028

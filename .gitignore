@@ -9,3 +9,6 @@ venv/
 *.egg-info/
 # keep results out of git unless you want to share them
 evaluation/results/*_tmp.csv
+test-data/outputs/*dryrun*
+test-data/outputs/*_fx*
+docs/_form_values.txt

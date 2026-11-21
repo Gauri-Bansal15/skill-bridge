@@ -19,7 +19,7 @@ sys.path.insert(0, str(ROOT / "src"))
 
 from skillbridge.analyzer import analyse  # noqa: E402
 from skillbridge.camel import camel_case_dict, to_camel_case, to_pascal_case  # noqa: E402
-from skillbridge.llm import GeminiClient, GeminiError  # noqa: E402
+from skillbridge.llm import GeminiClient, GeminiError, is_quota_error# noqa: E402
 from skillbridge.prompts import LABELS  # noqa: E402
 from skillbridge.scoring import WEIGHTS  # noqa: E402
 from skillbridge.skills import find_skills  # noqa: E402
@@ -319,7 +319,8 @@ if st.button("Analyse Resume Against Job", type="primary", width="stretch"):
             )
     except (ValueError, GeminiError) as exc:
         st.session_state.pop("result", None)
-        st.error(str(exc))
+        st.error("The free Gemini quota for this app is used up for today. Switch the sidebar engine to "
+                     "'Offline demo (no key)', or paste your own free key from aistudio.google.com.") if is_quota_error(exc) else st.error(str(exc))
 
 # ---------- Analysis Results Dashboard ----------
 res = st.session_state.get("result")
