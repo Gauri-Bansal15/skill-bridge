@@ -64,7 +64,7 @@ cfg = json.loads(read("docs/m2_config.json"))
 rows = {}
 for f in sorted(glob.glob(str(ROOT / "test-data/outputs/tests_*.json")), key=lambda p: Path(p).stat().st_mtime):
     for r in json.loads(Path(f).read_text()):
-        if str(r.get("engine", "")).startswith("gemini"):
+        if str(r.get("engine", "")).startswith("gemini") and not any(str(x).startswith("run failed") for x in r.get("problems", [])):
             rows[r["id"]] = r
 check(len(rows) >= 10, f"{len(rows)} tests have real Gemini results (need >= 10; the table has 12)", "python evaluation/run_tests.py --engine gemini --tag mine")
 check(sum(r["type"] == "Edge" for r in rows.values()) >= 3, "at least 3 edge cases have real results")

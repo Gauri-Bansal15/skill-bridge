@@ -149,7 +149,7 @@ def load_tests(warn):
     best = {}
     for f in sorted(glob.glob(str(TD / "outputs/tests_*.json")), key=lambda p: Path(p).stat().st_mtime):
         for r in json.loads(Path(f).read_text()):
-            if str(r.get("engine", "")).startswith("gemini"):
+            if str(r.get("engine", "")).startswith("gemini") and not any(str(x).startswith("run failed") for x in r.get("problems", [])):
                 best[r["id"]] = r
             elif "offline" in str(r.get("engine", "")):
                 continue
