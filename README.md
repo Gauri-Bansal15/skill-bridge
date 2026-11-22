@@ -4,7 +4,7 @@
 
 Built by **Team Skill Bridge** for *Prompt Engineering (SCSE4041)* at Bennett University. Problem source: Problem Pool **C9 - Resume Feedback Against a Job Description**.
 
-**Live prototype:** (https://skill-bridge-resume-analyzer.streamlit.app) |  **Reel:** see the Milestone 2 form  |  [CHANGELOG](CHANGELOG.md)
+**Live prototype:** (https://ai-resume-analyzer-and-job-matcher.streamlit.app) |  **Reel:** see the Milestone 2 form  |  [CHANGELOG](CHANGELOG.md)
 
 ![result](docs/assets/app_03_result.png)
 
