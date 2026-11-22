@@ -6,7 +6,7 @@
   "batch": "B25-B36",
   "faculty": "Dr. Saurabh Srivastava",
   "links": {
-    "prototype": "https://skill-bridge-resume-analyzer.streamlit.app",
+    "prototype": "https://ai-resume-analyzer-and-job-matcher.streamlit.app",
     "repository": "https://github.com/Gauri-Bansal15/skill-bridge",
     "reel": "FILL_ME"
   },
