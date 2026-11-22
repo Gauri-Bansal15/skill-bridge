@@ -22,21 +22,85 @@
       ]
     }
   },
-  "result": null,
-  "error": "Gemini request failed: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://aistudio.google.com/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-3.6-flash, description: Generate content requests per day limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\\nPlease retry in 11h4m14.217456156s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://aistudio.google.com/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'description': 'Generate content requests per day limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.', 'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerDayPerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-3.6-flash'}, 'quotaValue': '20'}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '39854s'}]}}",
+  "result": {
+    "matching_skills": [
+      {
+        "skill": "Python",
+        "evidence": "automated the weekly report with Python.",
+        "demonstrated": true
+      },
+      {
+        "skill": "SQL",
+        "evidence": "performed data analysis on sales data using Pandas and SQL",
+        "demonstrated": true
+      },
+      {
+        "skill": "machine learning",
+        "evidence": "evaluated the machine learning model with precision and recall.",
+        "demonstrated": true
+      },
+      {
+        "skill": "data analysis",
+        "evidence": "performed data analysis on sales data using Pandas and SQL",
+        "demonstrated": true
+      },
+      {
+        "skill": "TensorFlow",
+        "evidence": "trained a convolutional neural network with TensorFlow on MNIST",
+        "demonstrated": true
+      },
+      {
+        "skill": "Git",
+        "evidence": "tracked changes with Git.",
+        "demonstrated": true
+      }
+    ],
+    "missing_skills": [
+      {
+        "skill": "PyTorch",
+        "importance": "preferred",
+        "note": "Skill is listed under preferred skills in the job description but is missing from the resume."
+      }
+    ],
+    "unverified_skills": [],
+    "score_reasoning": "All 4 required skills (Python, SQL, machine learning, data analysis) are present and demonstrated in projects or experience, yielding full points for required skills (50.0) and experience/projects (20.0). Education scores 10.0 as B.Tech Computer Science and Engineering directly matches the required CS degree. For preferred skills, 2 out of 3 (TensorFlow, Git) are present and demonstrated, while PyTorch is missing, resulting in 13.3 out of 20.",
+    "suggestions": [
+      {
+        "section": "Skills",
+        "suggestion": "If you genuinely have experience with PyTorch, add it to your Skills list to match all preferred requirements. If not, consider building a small project using PyTorch first to learn it.",
+        "based_on": "Skills: Python, SQL, Pandas, NumPy, scikit-learn, TensorFlow, Git"
+      }
+    ],
+    "score_breakdown": {
+      "required_skills": 50,
+      "experience_projects": 20,
+      "education": 10,
+      "preferred_skills": 13.3
+    },
+    "match_score": 93,
+    "warnings": [],
+    "engine": "gemini (gemini-3.5-flash)",
+    "prompt_version": "final",
+    "privacy": {
+      "total": 1,
+      "counts": {
+        "name": 1
+      }
+    },
+    "disclaimer": "Guidance only. This score is not a hiring decision and has not been validated against real recruiters."
+  },
+  "error": null,
   "row": {
     "id": "T2",
     "type": "Normal",
     "input_short": "Student with ML internship and 2 ML projects vs AI/ML intern job",
     "expected": "Score 85-100; ML skills matched; only PyTorch missing",
-    "actual_short": "Run failed: Gemini request failed: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exc",
-    "pass": false,
-    "problems": [
-      "run failed: Gemini request failed: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://aistudio.google.com/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-3.6-flash, description: Generate content requests per day limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\\nPlease retry in 11h4m14.217456156s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://aistudio.google.com/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'description': 'Generate content requests per day limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.', 'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerDayPerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-3.6-flash'}, 'quotaValue': '20'}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '39854s'}]}}"
-    ],
-    "engine": "gemini",
+    "actual_short": "Score 93. Matched: data analysis, git, machine learning, python, sql, tensorflow. Missing: pytorch.",
+    "pass": true,
+    "problems": [],
+    "engine": "gemini (gemini-3.5-flash)",
     "prompt_version": "final",
-    "score": null,
+    "score": 93,
     "evidence_warnings": 0
   }
 }
