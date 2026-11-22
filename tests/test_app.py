@@ -25,6 +25,6 @@ def test_app_interactive_features_and_camel_case():
     at.session_state["job"] = (ROOT / "data/jobs/ai_ml_intern.txt").read_text()
     at.button[0].click().run()
     assert not at.exception
-    assert len(at.tabs) == 6
-    assert at.metric[0].label == "MatchScore"
+    assert len(at.tabs) == 4
+    assert at.metric[0].label == "Match Score"
     assert at.metric[0].value == "62 / 100"

@@ -1,6 +1,7 @@
 # Problem statement
 
-**Project:** Skill Bridge - AI Resume Analyzer and Job Matcher
+**Project:** AI Resume Analyzer and Job Matcher
+**Team:** Skill Bridge
 **Course:** Prompt Engineering (SCSE4041), Bennett University
 **Problem source:** Problem Pool, ID **C9 - Resume Feedback Against a Job Description**
 

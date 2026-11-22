@@ -1,7 +1,8 @@
-"""SkillBridge - Intelligent AI Resume Analyzer & Job Matcher.
+"""AI Resume Analyzer and Job Matcher.
 
-An explainable, evidence-based resume evaluator built with transparent prompt
-engineering and rubric scoring. Run: streamlit run app.py
+An explainable, evidence-based resume evaluator built by Team Skill Bridge with
+transparent prompt engineering, rubric scoring, and native CamelCase data schemas.
+Run: streamlit run app.py
 """
 from __future__ import annotations
 
@@ -19,81 +20,94 @@ sys.path.insert(0, str(ROOT / "src"))
 
 from skillbridge.analyzer import analyse  # noqa: E402
 from skillbridge.camel import camel_case_dict, to_camel_case, to_pascal_case  # noqa: E402
-from skillbridge.llm import GeminiClient, GeminiError, is_quota_error# noqa: E402
+from skillbridge.llm import GeminiClient, GeminiError  # noqa: E402
 from skillbridge.prompts import LABELS  # noqa: E402
 from skillbridge.scoring import WEIGHTS  # noqa: E402
 from skillbridge.skills import find_skills  # noqa: E402
 
 st.set_page_config(
-    page_title="SkillBridge • AI Resume & Job Intelligence",
-    page_icon="🌉",
+    page_title="AI Resume Analyzer and Job Matcher • Team Skill Bridge",
+    page_icon="📄",
     layout="wide",
     initial_sidebar_state="expanded",
 )
 
-# ---------- Custom CSS for Professional, Interactive UI ----------
+# ---------- Custom Modern CSS Design System ----------
 st.markdown(
     """
 <style>
-  /* Header styling */
-  .sb-main-title {
-    font-size: 2.2rem;
-    font-weight: 800;
-    letter-spacing: -0.02em;
-    margin-bottom: 0.2rem;
-    color: #1E293B;
-  }
-  .sb-subtitle {
-    font-size: 1.05rem;
-    color: #64748B;
-    margin-bottom: 1.2rem;
+  /* Base font & typography enhancements */
+  html, body, [class*="css"] {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   }
 
-  /* Badge pills */
+  /* Header typography */
+  .sb-header-title {
+    font-size: 2.3rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    color: #0F172A;
+    margin-bottom: 0.25rem;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .sb-header-subtitle {
+    font-size: 1.05rem;
+    color: #475569;
+    margin-bottom: 1.1rem;
+    line-height: 1.5;
+  }
+
+  /* Badge container */
   .sb-badge-container {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
-    margin-bottom: 1.4rem;
+    margin-bottom: 1.3rem;
   }
   .sb-badge {
     display: inline-flex;
     align-items: center;
-    gap: 5px;
-    padding: 4px 12px;
+    gap: 6px;
+    padding: 5px 13px;
     border-radius: 9999px;
-    font-size: 0.78rem;
+    font-size: 0.8rem;
     font-weight: 600;
     letter-spacing: 0.02em;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.03);
   }
   .sb-badge-indigo { background: #EEF2FF; color: #4338CA; border: 1px solid #C7D2FE; }
   .sb-badge-emerald { background: #ECFDF5; color: #065F46; border: 1px solid #A7F3D0; }
   .sb-badge-amber { background: #FFFBEB; color: #92400E; border: 1px solid #FDE68A; }
-  .sb-badge-violet { background: #F5F3FF; color: #5B21B6; border: 1px solid #DDD6FE; }
+  .sb-badge-purple { background: #FAF5FF; color: #6B21A8; border: 1px solid #E9D5FF; }
 
-  /* Cards */
+  /* Interactive cards */
   .sb-card {
     background: #FFFFFF;
     border: 1px solid #E2E8F0;
     border-radius: 12px;
-    padding: 16px 20px;
+    padding: 18px 22px;
     margin-bottom: 14px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+    transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
   }
   .sb-card:hover {
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    box-shadow: 0 6px 16px rgba(15, 23, 42, 0.08);
+    border-color: #CBD5E1;
   }
 
   /* Status pills */
   .sb-pill {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
     padding: 3px 10px;
     border-radius: 6px;
-    font-size: 0.75rem;
+    font-size: 0.74rem;
     font-weight: 700;
-    text-transform: uppercase;
     letter-spacing: 0.04em;
+    text-transform: none;
   }
   .sb-pill-demonstrated { background: #DCFCE7; color: #15803D; border: 1px solid #86EFAC; }
   .sb-pill-listed { background: #FEF3C7; color: #B45309; border: 1px solid #FCD34D; }
@@ -101,25 +115,26 @@ st.markdown(
   .sb-pill-preferred { background: #F3E8FF; color: #7E22CE; border: 1px solid #D8B4FE; }
   .sb-pill-unverified { background: #F1F5F9; color: #475569; border: 1px solid #CBD5E1; }
 
-  /* Quote block */
+  /* Evidence quotation callout */
   .sb-quote {
     background: #F8FAFC;
     border-left: 3px solid #6366F1;
-    padding: 8px 14px;
-    margin-top: 6px;
+    padding: 10px 16px;
+    margin-top: 8px;
     font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-    font-size: 0.83rem;
+    font-size: 0.84rem;
     color: #334155;
-    border-radius: 0 6px 6px 0;
+    border-radius: 0 8px 8px 0;
+    line-height: 1.45;
   }
 
-  /* Quick stats banner */
-  .sb-stat-tile {
-    text-align: center;
-    padding: 12px;
-    border-radius: 10px;
+  /* Benchmark scenario banner */
+  .sb-scenario-box {
     background: #F8FAFC;
     border: 1px solid #E2E8F0;
+    border-radius: 12px;
+    padding: 14px 18px;
+    margin-bottom: 16px;
   }
 </style>
 """,
@@ -151,14 +166,14 @@ def load_sample(key: str, path_list: list[Path], label: str) -> None:
 
 # ---------- Sidebar Configuration ----------
 with st.sidebar:
-    st.markdown("## 🌉 SkillBridge")
-    st.caption("Explainable AI Resume Feedback & Transparent Rubric Scoring")
+    st.markdown("## 📄 Resume Analyzer")
+    st.caption("**Project**: AI Resume Analyzer and Job Matcher\n\n**Team**: Skill Bridge (SCSE4041)")
 
-    st.markdown("### ⚙️ EngineConfiguration")
+    st.markdown("### ⚙️ Engine Configuration")
     engine_label = st.radio(
         "Evaluation Engine",
         ["Offline Demo (Rule-based, instant)", "Gemini (LLM Rubric Evaluator)"],
-        help="The offline demo is deterministic, rule-based, and works offline.",
+        help="The offline demo runs transparent rules without internet or API key.",
     )
     engine = "gemini" if "Gemini" in engine_label else "offline"
 
@@ -169,7 +184,7 @@ with st.sidebar:
             list(LABELS),
             index=2,
             format_func=LABELS.get,
-            help="v3 features the full four-part scoring rubric and hallucination guardrails.",
+            help="v3 features the full four-part scoring rubric and anti-hallucination guardrails.",
         )
         api_key = st.text_input(
             "Gemini API Key",
@@ -178,51 +193,43 @@ with st.sidebar:
         )
 
     st.markdown("---")
-    st.markdown("### 🛡️ GuardrailsAndFormatting")
+    st.markdown("### 🛡️ Guardrails & Privacy")
     anon = st.toggle(
-        "PrivacyFilterActive",
+        "Auto Privacy Masking",
         value=True,
-        help="Masks candidate names, emails, phones, URLs, and student ID numbers before evaluation.",
+        help="Masks candidate names, emails, phone numbers, links, and student ID numbers before evaluation.",
     )
 
-    camel_mode = st.toggle(
-        "CamelCaseModeEnabled",
-        value=True,
-        help="Display UI headings, metrics, tabs, and export payloads in camelCase / PascalCase.",
-    )
-
-    st.markdown("---")
-    with st.expander("📖 RubricMethodology"):
+    with st.expander("📖 Rubric Methodology"):
         st.markdown(
             """
         **100-Point Fixed Rubric:**
-        - **RequiredSkills**: 50 pts (Scaled by coverage)
-        - **ExperienceProjects**: 20 pts (Evidence required)
-        - **Education**: 10 pts (Related degree)
-        - **PreferredSkills**: 20 pts (Bonus skills)
+        - **Required Skills**: 50 pts (Coverage & proof)
+        - **Experience & Projects**: 20 pts (Evidence required)
+        - **Education**: 10 pts (Relevant qualification)
+        - **Preferred Skills**: 20 pts (Bonus competencies)
 
-        *Evidence Guardrail*: Skills named only in a skills list score lower than those demonstrated with project context.
+        *Evidence Guardrail*: Skills named only in a skills list receive lower credit than those proven with project context.
         """
         )
 
     st.caption("Confidentiality: Anonymise resumes before uploading real data.")
 
 # ---------- Main Header ----------
-app_title = "SkillBridge: AI Resume Analyzer & Job Matcher" if not camel_mode else "SkillBridge • ResumeAnalyzerAndJobMatcher"
-st.markdown(f"<div class='sb-main-title'>{app_title}</div>", unsafe_allow_html=True)
-st.markdown(
-    "<div class='sb-subtitle'>Paste a resume and job description to inspect an explainable match score, verified project evidence, missing requirements, and honest improvement suggestions.</div>",
-    unsafe_allow_html=True,
-)
-
-# Badges
 st.markdown(
     """
+<div class='sb-header-title'>
+  <span>📄 AI Resume Analyzer and Job Matcher</span>
+</div>
+<div class='sb-header-subtitle'>
+  Developed by <strong>Team Skill Bridge</strong> • SCSE4041 Prompt Engineering, Bennett University.<br>
+  Compare candidate resumes against job descriptions with transparent 100-point rubric scoring, verified project evidence, and privacy-preserving guardrails.
+</div>
 <div class='sb-badge-container'>
-  <span class='sb-badge sb-badge-indigo'>🔒 PrivacyFirst (AutoAnonymised)</span>
-  <span class='sb-badge sb-badge-emerald'>📊 100PointRubric (NoHallucinatedScores)</span>
-  <span class='sb-badge sb-badge-amber'>⚡ ZeroFakeSkillsGuardrail</span>
-  <span class='sb-badge sb-badge-violet'>🐫 CamelCaseSupportEnabled</span>
+  <span class='sb-badge sb-badge-indigo'>👥 Team: Skill Bridge</span>
+  <span class='sb-badge sb-badge-emerald'>📊 Explainable Rubric (100-Point Total)</span>
+  <span class='sb-badge sb-badge-amber'>🔒 Privacy Preserving (Auto-Masked)</span>
+  <span class='sb-badge sb-badge-purple'>⚡ Zero-Hallucination Guardrail</span>
 </div>
 """,
     unsafe_allow_html=True,
@@ -230,8 +237,8 @@ st.markdown(
 
 # ---------- Interactive Benchmark Scenarios (One-Click Testing) ----------
 with st.container():
-    st.markdown("##### 🚀 BenchmarkScenarios (One-Click Test Pairs)")
-    scenario_labels = ["(Select a benchmark pair or input custom text below)"] + [
+    st.markdown("##### 🚀 Benchmark Scenarios (One-Click Evaluation Pairs)")
+    scenario_labels = ["(Select a benchmark pair or enter custom text below)"] + [
         f"{p['id']}: {pretty(Path(p['resume']))} + {pretty(Path(p['job']))} — {p['note']}"
         for p in PAIRS
     ]
@@ -243,7 +250,7 @@ with st.container():
         key="scenario_selector",
     )
 
-    if selected_scenario != "(Select a benchmark pair or input custom text below)":
+    if selected_scenario != "(Select a benchmark pair or enter custom text below)":
         pair_id = selected_scenario.split(":")[0]
         matched_pair = next((p for p in PAIRS if p["id"] == pair_id), None)
         if matched_pair:
@@ -256,55 +263,59 @@ with st.container():
 
             band_min, band_max = matched_pair["gold"]["score_band"]
             st.info(
-                f"🎯 **Target Objective**: {matched_pair['note']} | **Expected Score Band**: {band_min} - {band_max} pts"
+                f"🎯 **Benchmark Objective**: {matched_pair['note']} | **Gold Target Band**: {band_min} - {band_max} pts"
             )
 
-# ---------- Input Section ----------
+# ---------- Two-Column Inputs ----------
 c1, c2 = st.columns(2)
 
 with c1:
-    resume_header = "CandidateResume" if camel_mode else "Candidate Resume"
-    st.markdown(f"#### 📄 {resume_header}")
+    st.markdown("#### 📄 Candidate Resume")
     load_sample("resume", RESUMES, "resume")
 
-    # Live statistics & preview chips
+    # Real-time text statistics & detected skill chips
     current_resume = st.session_state.get("resume", "")
     detected_resume_skills = find_skills(current_resume) if current_resume else []
     resume_words = len(current_resume.split()) if current_resume else 0
-    st.caption(
-        f"Stats: {resume_words} words | Detected skills: {', '.join(detected_resume_skills[:5]) + ('...' if len(detected_resume_skills) > 5 else '') if detected_resume_skills else 'None'}"
+    skills_preview = (
+        ", ".join(detected_resume_skills[:5]) + ("..." if len(detected_resume_skills) > 5 else "")
+        if detected_resume_skills
+        else "None detected yet"
     )
+    st.caption(f"Stats: **{resume_words} words** | Detected skills: *{skills_preview}*")
 
     resume = st.text_area(
         "Resume",
         key="resume",
         height=280,
-        placeholder="Paste candidate resume text here or choose a sample above...",
+        placeholder="Paste candidate resume text here or choose a sample from above...",
         label_visibility="collapsed",
     )
 
 with c2:
-    job_header = "JobDescription" if camel_mode else "Job Description"
-    st.markdown(f"#### 🎯 {job_header}")
+    st.markdown("#### 🎯 Target Job Description")
     load_sample("job", JOBS, "job description")
 
     current_job = st.session_state.get("job", "")
     detected_job_skills = find_skills(current_job) if current_job else []
     job_words = len(current_job.split()) if current_job else 0
-    st.caption(
-        f"Stats: {job_words} words | Target requirements: {', '.join(detected_job_skills[:5]) + ('...' if len(detected_job_skills) > 5 else '') if detected_job_skills else 'None'}"
+    req_preview = (
+        ", ".join(detected_job_skills[:5]) + ("..." if len(detected_job_skills) > 5 else "")
+        if detected_job_skills
+        else "None detected yet"
     )
+    st.caption(f"Stats: **{job_words} words** | Target requirements: *{req_preview}*")
 
     job = st.text_area(
         "Job description",
         key="job",
         height=280,
-        placeholder="Paste job description text here or choose a sample above...",
+        placeholder="Paste target job description text here or choose a sample from above...",
         label_visibility="collapsed",
     )
 
 # ---------- Primary Action Button ----------
-# NOTE: This must remain the FIRST st.button in the app to satisfy test_app.py
+# NOTE: Must remain the FIRST st.button in app.py to satisfy automated test suite
 if st.button("Analyse Resume Against Job", type="primary", width="stretch"):
     try:
         client = GeminiClient(api_key=api_key or None) if engine == "gemini" else None
@@ -319,21 +330,19 @@ if st.button("Analyse Resume Against Job", type="primary", width="stretch"):
             )
     except (ValueError, GeminiError) as exc:
         st.session_state.pop("result", None)
-        st.error("The free Gemini quota for this app is used up for today. Switch the sidebar engine to "
-                     "'Offline demo (no key)', or paste your own free key from aistudio.google.com.") if is_quota_error(exc) else st.error(str(exc))
+        st.error(str(exc))
 
-# ---------- Analysis Results Dashboard ----------
+# ---------- Results Dashboard ----------
 res = st.session_state.get("result")
 if res:
     st.markdown("---")
 
-    # Header summary info
     active_engine = res.get("engine", "offline")
     active_prompt = res.get("prompt_version", "v3")
     masked_total = res.get("privacy", {}).get("total", 0)
 
     st.caption(
-        f"Evaluation Engine: **{active_engine}** | Prompt: **{active_prompt}** | Privacy Guardrail: **{masked_total} personal items masked**"
+        f"Evaluation Engine: **{active_engine}** | Prompt Version: **{active_prompt}** | Privacy Guardrail: **{masked_total} personal details sanitized**"
     )
 
     if res.get("raw_text"):
@@ -357,52 +366,53 @@ if res:
         listed_only_count = sum(1 for m in matching_skills if not m.get("demonstrated"))
         missing_count = len(res.get("missing_skills", []))
 
-        # Hero Stat Cards
-        # NOTE: at.metric[0].value MUST be f"{res['match_score']} / 100" to satisfy test_app.py
+        # Hero Stat Cards with spaces between words
+        # NOTE: at.metric[0].label must be "Match Score" and value "62 / 100" to satisfy test_app.py
         m1, m2, m3, m4 = st.columns(4)
         with m1:
-            match_metric_label = "MatchScore" if camel_mode else "Match Score"
-            st.metric(match_metric_label, f"{score} / 100", delta=score_tier)
+            st.metric("Match Score", f"{score} / 100", delta=score_tier)
         with m2:
-            dem_label = "DemonstratedSkills" if camel_mode else "Demonstrated Skills"
-            st.metric(dem_label, f"{demonstrated_count} Verified", delta="Quoted Evidence")
+            st.metric("Demonstrated Skills", f"{demonstrated_count} Verified", delta="Quoted Evidence")
         with m3:
-            list_label = "ListedOnlySkills" if camel_mode else "Listed-Only Skills"
             st.metric(
-                list_label,
+                "Listed-Only Skills",
                 f"{listed_only_count} Unproven",
-                delta="No Context" if listed_only_count else "Clean",
+                delta="No Project Context" if listed_only_count else "Clean",
                 delta_color="inverse" if listed_only_count else "normal",
             )
         with m4:
-            miss_label = "MissingSkills" if camel_mode else "Missing Skills"
-            st.metric(miss_label, f"{missing_count} Missing", delta="Rubric Gaps", delta_color="inverse")
+            st.metric("Missing Skills", f"{missing_count} Missing", delta="Rubric Gaps", delta_color="inverse")
 
-        # Progress bar
+        # Visual progress bar
         st.progress(score / 100)
 
-        # Reasoning callout
+        # Reasoning callout card
         st.markdown(
             f"""
         <div class='sb-card' style='border-left: 4px solid {tier_color};'>
-          <strong>💡 Rubric Evaluation Summary:</strong> {res.get("score_reasoning", "")}
+          <strong>💡 Rubric Evaluation Reasoning:</strong> {res.get("score_reasoning", "")}
         </div>
         """,
             unsafe_allow_html=True,
         )
 
-        # Rubric Breakdown Visuals
+        # Rubric Breakdown Analytics
         breakdown = res.get("score_breakdown")
         if breakdown:
-            st.markdown(f"### 📊 {'ScoreBreakdownAnalytics' if camel_mode else 'Score Breakdown Analytics'}")
+            st.markdown("### 📊 Score Breakdown Analytics")
             chart_col, table_col = st.columns([3, 2])
+
+            def clean_label(k: str) -> str:
+                return {
+                    "required_skills": "Required Skills",
+                    "experience_projects": "Experience & Projects",
+                    "education": "Education",
+                    "preferred_skills": "Preferred Skills",
+                }.get(k, k.replace("_", " ").title())
 
             chart_data = pd.DataFrame(
                 {
-                    "Component": [
-                        to_pascal_case(k) if camel_mode else k.replace("_", " ").title()
-                        for k in WEIGHTS
-                    ],
+                    "Component": [clean_label(k) for k in WEIGHTS],
                     "Earned": [breakdown.get(k, 0.0) for k in WEIGHTS],
                     "Max": [float(WEIGHTS[k]) for k in WEIGHTS],
                 }
@@ -410,7 +420,6 @@ if res:
             chart_data["Percent"] = (chart_data["Earned"] / chart_data["Max"] * 100).round(1)
 
             with chart_col:
-                # Interactive Altair Chart
                 bar_chart = (
                     alt.Chart(chart_data)
                     .mark_bar(cornerRadius=6, height=22)
@@ -426,7 +435,7 @@ if res:
                             alt.Tooltip("Component:N", title="Rubric Component"),
                             alt.Tooltip("Earned:Q", title="Points Earned"),
                             alt.Tooltip("Max:Q", title="Max Available"),
-                            alt.Tooltip("Percent:Q", title="Percentage %"),
+                            alt.Tooltip("Percent:Q", title="Completion %"),
                         ],
                     )
                     .properties(height=200)
@@ -436,71 +445,26 @@ if res:
             with table_col:
                 display_df = chart_data.rename(
                     columns={
-                        "Component": "RubricComponent" if camel_mode else "Rubric Component",
-                        "Earned": "PointsEarned" if camel_mode else "Points Earned",
-                        "Max": "MaxPoints" if camel_mode else "Max Points",
-                        "Percent": "CompletionPercent" if camel_mode else "Completion %",
+                        "Component": "Rubric Component",
+                        "Earned": "Points Earned",
+                        "Max": "Max Points",
+                        "Percent": "Completion %",
                     }
                 )
                 st.dataframe(display_df, hide_index=True, width="stretch")
 
-        # ---------- Interactive Tabs ----------
+        # ---------- Interactive Tabs (4 Tabs: MatchingSkills and DataExportCenter deleted) ----------
         tab_names = [
-            f"MatchingSkills ({len(matching_skills)})" if camel_mode else f"Matching Skills ({len(matching_skills)})",
-            f"MissingSkills ({missing_count})" if camel_mode else f"Missing Skills ({missing_count})",
-            "WhatIfSimulator 🔮" if camel_mode else "What-If Simulator 🔮",
-            f"ActionableSuggestions ({len(res.get('suggestions', []))}) 📋"
-            if camel_mode
-            else f"Actionable Suggestions ({len(res.get('suggestions', []))}) 📋",
-            "PrivacyAudit 🛡️" if camel_mode else "Privacy Audit 🛡️",
-            "DataExportCenter 💾" if camel_mode else "Data Export Center 💾",
+            f"Missing Skills ({missing_count})",
+            "What-If Simulator 🔮",
+            f"Action Plan ({len(res.get('suggestions', []))}) 📋",
+            "Privacy Audit 🛡️",
         ]
 
-        t1, t2, t3, t4, t5, t6 = st.tabs(tab_names)
+        t1, t2, t3, t4 = st.tabs(tab_names)
 
-        # Tab 1: Matching Skills
+        # Tab 1: Missing Skills
         with t1:
-            match_filter = st.radio(
-                "Filter Matching Skills",
-                ["All", "Demonstrated Only", "Listed Only"],
-                horizontal=True,
-                key="match_filter_radio",
-            )
-            filtered_matches = matching_skills
-            if match_filter == "Demonstrated Only":
-                filtered_matches = [m for m in matching_skills if m.get("demonstrated")]
-            elif match_filter == "Listed Only":
-                filtered_matches = [m for m in matching_skills if not m.get("demonstrated")]
-
-            if not filtered_matches:
-                st.info("No matching skills meet the current filter criteria.")
-
-            for m in filtered_matches:
-                is_dem = m.get("demonstrated", False)
-                pill_class = "sb-pill-demonstrated" if is_dem else "sb-pill-listed"
-                pill_text = (
-                    ("DemonstratedInProject" if camel_mode else "Demonstrated in Project")
-                    if is_dem
-                    else ("ListedOnlyUnproven" if camel_mode else "Listed Only (Not Proven)")
-                )
-
-                st.markdown(
-                    f"""
-                <div class='sb-card'>
-                  <div style='display: flex; justify-content: space-between; align-items: center;'>
-                    <span style='font-size: 1.1rem; font-weight: 700; color: #0F172A;'>{m['skill']}</span>
-                    <span class='sb-pill {pill_class}'>{pill_text}</span>
-                  </div>
-                  <div class='sb-quote'>
-                    <strong>Evidence:</strong> "{m.get('evidence', 'No quote available')}"
-                  </div>
-                </div>
-                """,
-                    unsafe_allow_html=True,
-                )
-
-        # Tab 2: Missing & Unverified Skills
-        with t2:
             miss_filter = st.radio(
                 "Filter Missing Skills",
                 ["All Missing", "Required Skills Only", "Preferred Skills Only"],
@@ -514,16 +478,12 @@ if res:
                 missing_skills = [m for m in missing_skills if m.get("importance") == "preferred"]
 
             if not missing_skills and not res.get("unverified_skills"):
-                st.success("🎉 No missing or unverified skills! Complete coverage achieved.")
+                st.success("🎉 Full competency coverage! No required or preferred skills missing.")
 
             for m in missing_skills:
                 is_req = m.get("importance") == "required"
                 pill_class = "sb-pill-required" if is_req else "sb-pill-preferred"
-                pill_text = (
-                    ("RequiredSkill" if camel_mode else "Required (50pt Pool)")
-                    if is_req
-                    else ("PreferredSkill" if camel_mode else "Preferred (20pt Pool)")
-                )
+                pill_text = "Missing Required (50-pt Pool)" if is_req else "Missing Preferred (20-pt Pool)"
 
                 st.markdown(
                     f"""
@@ -540,17 +500,17 @@ if res:
                     unsafe_allow_html=True,
                 )
 
-            # Unverified skills
+            # Unverified skills (hallucination rejection)
             unverified_skills = res.get("unverified_skills", [])
             if unverified_skills:
-                st.markdown("##### ⚠️ Unverified Skills (Invented or Unproven Evidence)")
+                st.markdown("##### ⚠️ Unverified Skills (Quoted Evidence Failed Sanity Check)")
                 for u in unverified_skills:
                     st.markdown(
                         f"""
                     <div class='sb-card' style='border-left: 3px solid #F59E0B;'>
                       <div style='display: flex; justify-content: space-between;'>
                         <span style='font-weight: 700; color: #92400E;'>{u['skill']}</span>
-                        <span class='sb-pill sb-pill-unverified'>Unverified</span>
+                        <span class='sb-pill sb-pill-unverified'>Unverified Evidence</span>
                       </div>
                       <div style='font-size: 0.85rem; color: #64748B; margin-top: 4px;'>
                         {u.get('reason', 'Evidence quoted by the model was not found in the resume text.')}
@@ -560,11 +520,11 @@ if res:
                         unsafe_allow_html=True,
                     )
 
-        # Tab 3: What-If Score Simulator (High Interactivity!)
-        with t3:
-            st.markdown(f"#### 🔮 {'WhatIfScoreSimulator' if camel_mode else 'What-If Score Simulator'}")
+        # Tab 2: What-If Simulator (Dynamic Score Improvement Projector)
+        with t2:
+            st.markdown("#### 🔮 What-If Score Simulator")
             st.caption(
-                "Simulate your potential score increase by demonstrating missing skills or adding project proof for listed-only skills."
+                "Simulate your potential score increase by selecting skills to demonstrate in projects or by adding project proof for listed-only skills."
             )
 
             all_sim_candidates = []
@@ -584,7 +544,7 @@ if res:
                             "skill": m["skill"],
                             "type": "unproven",
                             "importance": "required",
-                            "desc": f"Add concrete project evidence for listed skill {m['skill']}",
+                            "desc": f"Add project proof for listed skill {m['skill']}",
                         }
                     )
 
@@ -605,7 +565,6 @@ if res:
                             selected_sim_skills.append(item)
 
                 with sim_col2:
-                    # Compute simulated score
                     sim_score = score
                     for item in selected_sim_skills:
                         if item["importance"] == "required" and item["type"] == "missing":
@@ -619,7 +578,7 @@ if res:
 
                     st.markdown("##### 📈 Projected Score Impact")
                     st.metric(
-                        "SimulatedScore" if camel_mode else "Simulated Score",
+                        "Simulated Score",
                         f"{sim_score} / 100",
                         delta=f"+{delta_pts} pts" if delta_pts > 0 else "No Change",
                     )
@@ -627,16 +586,16 @@ if res:
 
                     if delta_pts > 0:
                         st.success(
-                            f"✨ Demonstrating these {len(selected_sim_skills)} items could elevate your score from **{score}** to **{sim_score}**!"
+                            f"✨ Demonstrating these {len(selected_sim_skills)} competencies elevates your projected score from **{score}** to **{sim_score}**!"
                         )
                     else:
-                        st.info("Check boxes on the left to simulate improvements.")
+                        st.info("Check boxes on the left to simulate project additions.")
 
-        # Tab 4: Actionable Suggestions (Interactive Checklist)
-        with t4:
-            st.markdown(f"#### 📋 {'ActionableResumeImprovementPlan' if camel_mode else 'Actionable Resume Improvement Plan'}")
+        # Tab 3: Action Plan (Interactive To-Do Checklist)
+        with t3:
+            st.markdown("#### 📋 Actionable Resume Improvement Plan")
             st.caption(
-                "Work through these suggestions. Check them off as you update your resume. Remember: never claim skills you cannot defend in an interview."
+                "Work through these suggestions. Check them off as you refine your resume. Remember: never claim skills you cannot defend in an interview."
             )
 
             suggestions = res.get("suggestions", [])
@@ -660,29 +619,27 @@ if res:
                 st.write(f"Checklist Progress: **{completed_count} of {len(suggestions)} items completed**")
                 st.progress(completion_rate)
 
-        # Tab 5: Privacy Audit & Masking Inspector
-        with t5:
-            st.markdown(f"#### 🛡️ {'PrivacyAuditAndRedactionInspector' if camel_mode else 'Privacy Audit & Redaction Inspector'}")
+        # Tab 4: Privacy Audit (Inspection)
+        with t4:
+            st.markdown("#### 🛡️ Privacy Audit & Sanitization Inspector")
             st.caption(
-                "SkillBridge safeguards candidate privacy by automatically sanitizing personal contact details before model analysis."
+                "SkillBridge safeguards candidate confidentiality by automatically sanitizing personal contact identifiers before passing text to any engine."
             )
 
             privacy_info = res.get("privacy", {})
             counts = privacy_info.get("counts", {})
-            total_masked = privacy_info.get("total", 0)
 
             p_cols = st.columns(5)
             types_map = [
-                ("Names", "name"),
-                ("Emails", "email"),
-                ("Phones", "phone"),
-                ("Links", "url"),
-                ("IDs", "id_number"),
+                ("Candidate Names", "name"),
+                ("Email Addresses", "email"),
+                ("Phone Numbers", "phone"),
+                ("Profile URLs", "url"),
+                ("Student IDs", "id_number"),
             ]
             for col, (label, key) in zip(p_cols, types_map):
                 with col:
-                    col_label = to_camel_case(label) if camel_mode else label
-                    st.metric(col_label, counts.get(key, 0))
+                    st.metric(label, counts.get(key, 0))
 
             with st.expander("🔍 View Anonymised Resume Text Passed to Engine"):
                 from skillbridge.privacy import anonymise
@@ -690,25 +647,16 @@ if res:
                 clean_text, _ = anonymise(resume)
                 st.text_area("Anonymised Content", clean_text, height=220, disabled=True)
 
-        # Tab 6: Data Export Center (With camelCase Support!)
-        with t6:
-            st.markdown(f"#### 💾 {'DataExportCenter' if camel_mode else 'Data Export Center'}")
-            st.caption("Download structured evaluation results in camelCase JSON, standard JSON, or Markdown.")
+    # Optional Compact Download Expander
+    with st.expander("💾 Download Evaluation Reports (camelCase JSON / Standard / Markdown)"):
+        camel_res = camel_case_dict(res)
+        camel_json_str = json.dumps(camel_res, indent=2, ensure_ascii=False)
+        std_json_str = json.dumps(res, indent=2, ensure_ascii=False)
 
-            export_format = st.radio(
-                "Payload Format",
-                ["camelCase JSON", "Standard snake_case JSON", "Markdown Summary Report"],
-                horizontal=True,
-                key="export_format_radio",
-            )
+        md_report = f"""# AI Resume Analyzer and Job Matcher - Evaluation Report
 
-            # Build export payloads
-            camel_res = camel_case_dict(res)
-            camel_json_str = json.dumps(camel_res, indent=2, ensure_ascii=False)
-            std_json_str = json.dumps(res, indent=2, ensure_ascii=False)
-
-            md_report = f"""# SkillBridge Analysis Report
-
+**Project**: AI Resume Analyzer and Job Matcher
+**Team**: Skill Bridge (SCSE4041)
 **Match Score**: {res.get('match_score', 0)} / 100
 **Evaluation Engine**: {res.get('engine', 'offline')} (Prompt: {res.get('prompt_version', 'n/a')})
 
@@ -721,9 +669,6 @@ if res:
 ## Summary Reasoning
 {res.get('score_reasoning', '')}
 
-## Matching Skills ({len(matching_skills)})
-{chr(10).join(f"- **{m['skill']}** ({'demonstrated' if m.get('demonstrated') else 'listed only'}): {m.get('evidence', '')}" for m in matching_skills)}
-
 ## Missing Skills ({len(res.get('missing_skills', []))})
 {chr(10).join(f"- **{m['skill']}** [{m.get('importance', 'required')}]: {m.get('note', '')}" for m in res.get('missing_skills', []))}
 
@@ -733,39 +678,31 @@ if res:
 ---
 *{res.get('disclaimer', '')}*
 """
-
-            if export_format == "camelCase JSON":
-                st.json(camel_res)
-            elif export_format == "Standard snake_case JSON":
-                st.json(res)
-            else:
-                st.markdown(md_report)
-
-            down_c1, down_c2, down_c3 = st.columns(3)
-            with down_c1:
-                st.download_button(
-                    "Download camelCase JSON",
-                    camel_json_str,
-                    "skillBridgeAnalysis_camelCase.json",
-                    "application/json",
-                    width="stretch",
-                )
-            with down_c2:
-                st.download_button(
-                    "Download Standard JSON",
-                    std_json_str,
-                    "skillbridge_result.json",
-                    "application/json",
-                    width="stretch",
-                )
-            with down_c3:
-                st.download_button(
-                    "Download Markdown Report",
-                    md_report,
-                    "skillBridgeReport.md",
-                    "text/markdown",
-                    width="stretch",
-                )
+        d_c1, d_c2, d_c3 = st.columns(3)
+        with d_c1:
+            st.download_button(
+                "Download camelCase JSON",
+                camel_json_str,
+                "ai_resume_analyzer_camelCase.json",
+                "application/json",
+                width="stretch",
+            )
+        with d_c2:
+            st.download_button(
+                "Download Standard JSON",
+                std_json_str,
+                "ai_resume_analyzer_standard.json",
+                "application/json",
+                width="stretch",
+            )
+        with d_c3:
+            st.download_button(
+                "Download Markdown Report",
+                md_report,
+                "ai_resume_analyzer_report.md",
+                "text/markdown",
+                width="stretch",
+            )
 
     # Warnings and Disclaimer
     for w in res.get("warnings", []):
@@ -773,5 +710,5 @@ if res:
 
     st.markdown("---")
     st.caption(
-        f"⚖️ **Disclaimer**: {res.get('disclaimer', 'Guidance only. This score is not a hiring decision.')}"
+        f"⚖️ **Disclaimer**: {res.get('disclaimer', 'Guidance only. This score is not a hiring decision.')} | **Project**: AI Resume Analyzer and Job Matcher • **Team**: Skill Bridge"
     )

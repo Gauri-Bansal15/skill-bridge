@@ -10,7 +10,7 @@ from .camel import camel_case_dict
 
 
 def main(argv: list[str] | None = None) -> int:
-    p = argparse.ArgumentParser(description="Skill Bridge - compare a resume with a job description")
+    p = argparse.ArgumentParser(description="AI Resume Analyzer and Job Matcher - by Team Skill Bridge")
     p.add_argument("--resume", required=True, type=Path)
     p.add_argument("--job", required=True, type=Path)
     p.add_argument("--engine", choices=["offline", "gemini"], default="offline")

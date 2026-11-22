@@ -1,15 +1,15 @@
-# Skill Bridge - AI Resume Analyzer and Job Matcher
+# AI Resume Analyzer and Job Matcher
 
 > Paste a resume and a job description. Get a match score you can explain, the skills that are missing, and suggestions that never ask you to fake anything.
 
 Built by **Team Skill Bridge** for *Prompt Engineering (SCSE4041)* at Bennett University. Problem source: Problem Pool **C9 - Resume Feedback Against a Job Description**.
 
-**Live prototype:** PROTOTYPE_URL_HERE  |  **Reel:** see the Milestone 2 form  |  [CHANGELOG](CHANGELOG.md)
+**Live prototype:** (https://skill-bridge-resume-analyzer.streamlit.app) |  **Reel:** see the Milestone 2 form  |  [CHANGELOG](CHANGELOG.md)
 
 ![result](docs/assets/app_03_result.png)
 
 ## The problem in one paragraph
-Students send the same resume to every job, then can't tell why they hear nothing back. Employers say they want *evidence* of skills - in NACE's Job Outlook 2025 survey, nearly 90% of responding employers looked for problem-solving evidence on student resumes - but a skill that is only named in a list proves very little. Skill Bridge compares a resume with a job description and shows, for each skill, whether it is **demonstrated**, **only listed**, or **missing**. Full write-up: [`docs/PROBLEM_STATEMENT.md`](docs/PROBLEM_STATEMENT.md).
+Students send the same resume to every job, then can't tell why they hear nothing back. Employers say they want *evidence* of skills - in NACE's Job Outlook 2025 survey, nearly 90% of responding employers looked for problem-solving evidence on student resumes - but a skill that is only named in a list proves very little. This tool compares a resume with a job description and shows, for each skill, whether it is **demonstrated**, **only listed**, or **missing**. Full write-up: [`docs/PROBLEM_STATEMENT.md`](docs/PROBLEM_STATEMENT.md).
 
 ## What it does
 - **Explainable score (0-100)** from a fixed rubric: required skills 50, experience/projects 20, education 10, preferred skills 20.
