@@ -341,6 +341,12 @@ if res:
     active_prompt = res.get("prompt_version", "v3")
     masked_total = res.get("privacy", {}).get("total", 0)
 
+    # Safely extract common fields regardless of prompt version (v1 free text vs v2/v3 structured)
+    breakdown = res.get("score_breakdown") or {}
+    matching_skills = res.get("matching_skills") or []
+    missing_skills = res.get("missing_skills") or []
+    suggestions = res.get("suggestions") or []
+
     st.caption(
         f"Evaluation Engine: **{active_engine}** | Prompt Version: **{active_prompt}** | Privacy Guardrail: **{masked_total} personal details sanitized**"
     )
@@ -349,7 +355,7 @@ if res:
         st.subheader("Baseline Output (Free Text / Unstructured)")
         st.write(res["raw_text"])
     else:
-        score = res["match_score"]
+        score = res.get("match_score", 0) or 0
 
         # Score tier classification
         if score >= 85:
@@ -361,10 +367,9 @@ if res:
         else:
             score_tier, tier_color = "Significant Skill Gap", "#B91C1C"
 
-        matching_skills = res.get("matching_skills", [])
         demonstrated_count = sum(1 for m in matching_skills if m.get("demonstrated"))
         listed_only_count = sum(1 for m in matching_skills if not m.get("demonstrated"))
-        missing_count = len(res.get("missing_skills", []))
+        missing_count = len(missing_skills)
 
         # Hero Stat Cards with spaces between words
         # NOTE: at.metric[0].label must be "Match Score" and value "62 / 100" to satisfy test_app.py
@@ -653,7 +658,21 @@ if res:
         camel_json_str = json.dumps(camel_res, indent=2, ensure_ascii=False)
         std_json_str = json.dumps(res, indent=2, ensure_ascii=False)
 
-        md_report = f"""# AI Resume Analyzer and Job Matcher - Evaluation Report
+        if res.get("raw_text"):
+            md_report = f"""# AI Resume Analyzer and Job Matcher - Baseline Evaluation Report
+
+**Project**: AI Resume Analyzer and Job Matcher
+**Team**: Skill Bridge (SCSE4041)
+**Evaluation Engine**: {res.get('engine', 'offline')} (Prompt: {res.get('prompt_version', 'n/a')})
+
+## Baseline Output
+{res.get('raw_text')}
+
+---
+*{res.get('disclaimer', '')}*
+"""
+        else:
+            md_report = f"""# AI Resume Analyzer and Job Matcher - Evaluation Report
 
 **Project**: AI Resume Analyzer and Job Matcher
 **Team**: Skill Bridge (SCSE4041)
@@ -661,19 +680,19 @@ if res:
 **Evaluation Engine**: {res.get('engine', 'offline')} (Prompt: {res.get('prompt_version', 'n/a')})
 
 ## Rubric Breakdown
-- **Required Skills**: {breakdown.get('required_skills', 0) if breakdown else 'N/A'} / 50
-- **Experience & Projects**: {breakdown.get('experience_projects', 0) if breakdown else 'N/A'} / 20
-- **Education**: {breakdown.get('education', 0) if breakdown else 'N/A'} / 10
-- **Preferred Skills**: {breakdown.get('preferred_skills', 0) if breakdown else 'N/A'} / 20
+- **Required Skills**: {breakdown.get('required_skills', 'N/A') if breakdown else 'N/A'} / 50
+- **Experience & Projects**: {breakdown.get('experience_projects', 'N/A') if breakdown else 'N/A'} / 20
+- **Education**: {breakdown.get('education', 'N/A') if breakdown else 'N/A'} / 10
+- **Preferred Skills**: {breakdown.get('preferred_skills', 'N/A') if breakdown else 'N/A'} / 20
 
 ## Summary Reasoning
 {res.get('score_reasoning', '')}
 
-## Missing Skills ({len(res.get('missing_skills', []))})
-{chr(10).join(f"- **{m['skill']}** [{m.get('importance', 'required')}]: {m.get('note', '')}" for m in res.get('missing_skills', []))}
+## Missing Skills ({len(missing_skills)})
+{chr(10).join(f"- **{m['skill']}** [{m.get('importance', 'required')}]: {m.get('note', '')}" for m in missing_skills) if missing_skills else "None"}
 
 ## Suggestions
-{chr(10).join(f"- [{s.get('section', 'General')}] {s.get('suggestion', '')}" for s in res.get('suggestions', []))}
+{chr(10).join(f"- [{s.get('section', 'General')}] {s.get('suggestion', '')}" for s in suggestions) if suggestions else "None"}
 
 ---
 *{res.get('disclaimer', '')}*
